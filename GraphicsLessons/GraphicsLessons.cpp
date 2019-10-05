@@ -10,7 +10,8 @@
 HINSTANCE hInst;                                // current instance
 WCHAR szTitle[MAX_LOADSTRING];                  // The title bar text
 WCHAR szWindowClass[MAX_LOADSTRING];            // the main window class name
-HWND mHwnd;
+HWND mHwnd; // Main Window Handle
+RECT clientRect;
 
 // Forward declarations of functions included in this code module:
 ATOM                MyRegisterClass(HINSTANCE hInstance);
@@ -104,9 +105,25 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
     {
     case WM_PAINT:
         {
+			GetClientRect(mHwnd, &clientRect);
             PAINTSTRUCT ps;
             HDC hdc = BeginPaint(hWnd, &ps);
-            
+
+			//FillRect(hdc, &clientRect, reinterpret_cast<HBRUSH>(GetStockObject(BLACK_BRUSH)));
+			HPEN newPen = CreatePen(PS_SOLID, 5, RGB(0, 0, 255));
+			HBRUSH newBrush = CreateSolidBrush(RGB(255, 255, 0));
+
+			HGDIOBJ oldBrush = SelectObject(hdc, newBrush);
+			HGDIOBJ oldPen = SelectObject(hdc, newPen);
+
+			Rectangle(hdc, clientRect.left + 10, clientRect.top + 10, clientRect.right - 10, clientRect.bottom - 10);
+
+			SelectObject(hdc, oldPen);
+			SelectObject(hdc, oldBrush);
+
+			DeleteObject(newPen);
+			DeleteObject(newBrush);
+
             EndPaint(hWnd, &ps);
         }
         break;
