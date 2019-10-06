@@ -4,6 +4,8 @@
 #include "framework.h"
 #include "GraphicsLessons.h"
 
+#pragma comment(lib, "msimg32.lib")
+
 #define MAX_LOADSTRING 100
 
 // Global Variables:
@@ -13,6 +15,8 @@ WCHAR szWindowClass[MAX_LOADSTRING];            // the main window class name
 HWND mHwnd; // Main Window Handle
 RECT clientRect;
 HBITMAP pattern;
+HBITMAP kitty;
+BLENDFUNCTION blf = { AC_SRC_OVER, 0, 255, 0 };
 
 // Forward declarations of functions included in this code module:
 ATOM                MyRegisterClass(HINSTANCE hInstance);
@@ -85,6 +89,7 @@ BOOL InitInstance(HINSTANCE hInstance, int nCmdShow)
    hInst = hInstance; // Store instance handle in our global variable
 
    pattern = LoadBitmap(hInst, MAKEINTRESOURCE(IDB_BITMAP2));
+   kitty = LoadBitmap(hInst, MAKEINTRESOURCE(IDB_BITMAP1));
 
    HWND hWnd = CreateWindowW(szWindowClass, szTitle, WS_POPUP | WS_SYSMENU | WS_CAPTION | WS_MINIMIZEBOX,
       100, 100, 1280, 720, nullptr, nullptr, hInstance, nullptr);
@@ -122,6 +127,24 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
 			HGDIOBJ oldPen = SelectObject(hdc, newPen);
 
 			Rectangle(hdc, clientRect.left + 10, clientRect.top + 10, clientRect.right - 10, clientRect.bottom - 10);
+
+			BITMAP kittyObject;
+			GetObject(kitty, sizeof(BITMAP), &kittyObject);
+
+			HDC memDC = CreateCompatibleDC(hdc);
+			SelectObject(memDC, kitty);
+
+			//BitBlt(hdc, 30, 50, kittyObject.bmWidth, kittyObject.bmHeight, memDC, 0, 0, SRCCOPY);
+			//StretchBlt(hdc, 30, 50, kittyObject.bmWidth - 100, kittyObject.bmHeight + 25, memDC, 0, 0, 
+			//				kittyObject.bmWidth, kittyObject.bmHeight, SRCCOPY);
+
+			blf.SourceConstantAlpha = 255;
+			AlphaBlend(hdc, 20, 50, kittyObject.bmWidth, kittyObject.bmHeight, memDC, 0, 0,
+				kittyObject.bmWidth, kittyObject.bmHeight, blf);
+
+			
+
+			DeleteDC(memDC);
 
 			SelectObject(hdc, oldPen);
 			SelectObject(hdc, oldBrush);
