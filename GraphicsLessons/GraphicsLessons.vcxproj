@@ -163,8 +163,11 @@
     <ResourceCompile Include="GraphicsLessons.rc" />
   </ItemGroup>
   <ItemGroup>
+    <Image Include="bitmap3.bmp" />
+    <Image Include="brush.bmp" />
     <Image Include="GraphicsLessons.ico" />
     <Image Include="small.ico" />
+    <Image Include="texture.bmp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

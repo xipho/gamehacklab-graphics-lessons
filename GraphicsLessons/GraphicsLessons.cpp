@@ -12,6 +12,7 @@ WCHAR szTitle[MAX_LOADSTRING];                  // The title bar text
 WCHAR szWindowClass[MAX_LOADSTRING];            // the main window class name
 HWND mHwnd; // Main Window Handle
 RECT clientRect;
+HBITMAP pattern;
 
 // Forward declarations of functions included in this code module:
 ATOM                MyRegisterClass(HINSTANCE hInstance);
@@ -83,8 +84,12 @@ BOOL InitInstance(HINSTANCE hInstance, int nCmdShow)
 {
    hInst = hInstance; // Store instance handle in our global variable
 
+   pattern = LoadBitmap(hInst, MAKEINTRESOURCE(IDB_BITMAP2));
+
    HWND hWnd = CreateWindowW(szWindowClass, szTitle, WS_POPUP | WS_SYSMENU | WS_CAPTION | WS_MINIMIZEBOX,
       100, 100, 1280, 720, nullptr, nullptr, hInstance, nullptr);
+
+
 
    if (!hWnd)
    {
@@ -111,7 +116,7 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
 
 			//FillRect(hdc, &clientRect, reinterpret_cast<HBRUSH>(GetStockObject(BLACK_BRUSH)));
 			HPEN newPen = CreatePen(PS_SOLID, 5, RGB(0, 0, 255));
-			HBRUSH newBrush = CreateSolidBrush(RGB(255, 255, 0));
+			HBRUSH newBrush = CreatePatternBrush(pattern); //CreateSolidBrush(RGB(255, 255, 0));
 
 			HGDIOBJ oldBrush = SelectObject(hdc, newBrush);
 			HGDIOBJ oldPen = SelectObject(hdc, newPen);

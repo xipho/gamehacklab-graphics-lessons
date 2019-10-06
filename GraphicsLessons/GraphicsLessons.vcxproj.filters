@@ -45,5 +45,14 @@
     <Image Include="GraphicsLessons.ico">
       <Filter>Resource Files</Filter>
     </Image>
+    <Image Include="brush.bmp">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="texture.bmp">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="bitmap3.bmp">
+      <Filter>Resource Files</Filter>
+    </Image>
   </ItemGroup>
 </Project>
