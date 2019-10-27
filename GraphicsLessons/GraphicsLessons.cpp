@@ -173,8 +173,8 @@ void DrawFrame() {
 		if (alpha >= 255) forward = false;
 		if (alpha <= 0) forward = true;
 
-		if (forward) alpha += 1;
-		else alpha -= 1;
+		if (forward) alpha += 5;
+		else alpha -= 5;
 
 		blf.SourceConstantAlpha = alpha;
 		AlphaBlend(backDC, 20, 50, kittyObject.bmWidth, kittyObject.bmHeight, memDC, 0, 0,
